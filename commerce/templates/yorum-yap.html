@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% load static %}
+{% block title%}Yorum Yap{% endblock %}
+
+{% block content%} 
+
+Yorum yap
+
+
+
+{% load ratings %}
+ 
+
+
+ {% ratings object %}
+
+
+{% endblock %}

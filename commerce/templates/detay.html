@@ -1,0 +1,244 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title%}{{ urun.baslik }}{% endblock %}
+
+{% block top_head %}
+
+{% endblock %}
+
+{% block extra_head %}
+{% comment %}
+{% endcomment %}
+
+
+
+<style>
+  .star-rating {
+      font-size: 0;
+      white-space: nowrap;
+      display: inline-block;
+      width: 125px;
+      height: 25px;
+      overflow: hidden;
+      position: relative;
+      background: url('data:image/svg+xml;base64,PHN2ZyB2ZXJzaW9uPSIxLjEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHg9IjBweCIgeT0iMHB4IiB3aWR0aD0iMjBweCIgaGVpZ2h0PSIyMHB4IiB2aWV3Qm94PSIwIDAgMjAgMjAiIGVuYWJsZS1iYWNrZ3JvdW5kPSJuZXcgMCAwIDIwIDIwIiB4bWw6c3BhY2U9InByZXNlcnZlIj48cG9seWdvbiBmaWxsPSIjREREREREIiBwb2ludHM9IjEwLDAgMTMuMDksNi41ODMgMjAsNy42MzkgMTUsMTIuNzY0IDE2LjE4LDIwIDEwLDE2LjU4MyAzLjgyLDIwIDUsMTIuNzY0IDAsNy42MzkgNi45MSw2LjU4MyAiLz48L3N2Zz4=');
+      background-size: contain;
+    }
+    .star-rating i {
+      opacity: 0;
+      position: absolute;
+      left: 0;
+      top: 0;
+      height: 100%;
+      width: 20%;
+      z-index: 1;
+      background: url('data:image/svg+xml;base64,PHN2ZyB2ZXJzaW9uPSIxLjEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHg9IjBweCIgeT0iMHB4IiB3aWR0aD0iMjBweCIgaGVpZ2h0PSIyMHB4IiB2aWV3Qm94PSIwIDAgMjAgMjAiIGVuYWJsZS1iYWNrZ3JvdW5kPSJuZXcgMCAwIDIwIDIwIiB4bWw6c3BhY2U9InByZXNlcnZlIj48cG9seWdvbiBmaWxsPSIjRkZERjg4IiBwb2ludHM9IjEwLDAgMTMuMDksNi41ODMgMjAsNy42MzkgMTUsMTIuNzY0IDE2LjE4LDIwIDEwLDE2LjU4MyAzLjgyLDIwIDUsMTIuNzY0IDAsNy42MzkgNi45MSw2LjU4MyAiLz48L3N2Zz4=');
+      background-size: contain;
+    }
+    .star-rating input {
+      -moz-appearance: none;
+      -webkit-appearance: none;
+      opacity: 0;
+      display: inline-block;
+      width: 20%;
+      height: 100%;
+      margin: 0;
+      padding: 0;
+      z-index: 2;
+      position: relative;
+    }
+    .star-rating input:hover + i,
+    .star-rating input:checked + i {
+      opacity: 1;
+    }
+    .star-rating i ~ i {
+      width: 40%;
+    }
+    .star-rating i ~ i ~ i {
+      width: 60%;
+    }
+    .star-rating i ~ i ~ i ~ i {
+      width: 80%;
+    }
+    .star-rating i ~ i ~ i ~ i ~ i {
+      width: 100%;
+    }
+    ::after,
+    ::before {
+      height: 100%;
+      padding: 0;
+      margin: 0;
+      box-sizing: border-box;
+      text-align: center;
+      vertical-align: middle;
+    }
+</style>
+
+
+{% endblock %}
+
+
+{% block content%} 
+
+
+
+
+<div class="card mb-3"> 
+    <div class="row g-0"> 
+      <div class="col-md-4"> 
+        <img src="{{ urun.resim.url }}" class="img">
+      </div> 
+      <div class="col-md-8"> 
+        <div class="card-body"> 
+          <h5 class="card-title">{{ urun.baslik }}</h5> 
+          <p class="card-text">{{ urun.product|safe}}</p> 
+          <p class="card-text">{{ urun.price }} TL</p> 
+            <br>
+            
+            
+          </small>
+  
+            {% if request.user == urun.yazar %}
+            <p>
+              <a class= "btn btn-primary" href="siparislerim">Düzenle</a>
+              <a class= "btn btn-danger" href="{% url 'urun-sil' slug=urun.slug %}">Sil</a>
+              </p> 
+            {% endif %}
+        </div> 
+        <br>
+        <br>
+        <br>
+        <br>
+        <p style="float:right; padding-right:10%">
+            {% comment "Optional note" %}
+                <p>Commented out text with {{ create_date|date:"c" }}</p>
+                
+            {% endcomment %}
+            
+            <a class= "btn btn-primary" href="{% url 'sepete-ekle' UrunSlug=urun.slug %}">Sepete Ekle</a>
+
+        </p>
+    </div> 
+</div> 
+  </div> 
+
+<h4 class="mt-3">Yorumlar</h4>
+
+{% comment %}
+  {% if request.user.is_authenticated %}
+  <form method="POST">
+  {% csrf_token %}
+  {{ yorum_ekle_form }}
+  <br>
+  <input type="submit" value="Yorum Yap" class="btn btn-danger mt-3 mb-3"/>
+  
+</form>
+{% else %}
+  <p>Yorum yapmak için giriş yapınız.</p>
+{% endif %}
+
+{% endcomment %}
+
+
+
+  <!-- Button trigger modal -->
+  {% if request.user.is_authenticated %}
+  <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+    Yorum Yap
+  </button>
+  {% else %}
+  <p>Yorum yapmak için giriş yapınız.</p>
+  {% endif %}
+  
+  <!-- Modal -->
+  <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+       <form method="post" id="form1">
+           {% csrf_token %}
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Yorum Yap   .</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+            <span class="star-rating">
+              <input type="radio" name="rating" value="1"><i></i>
+              <input type="radio" name="rating" value="2"><i></i>
+              <input type="radio" name="rating" value="3"><i></i>
+              <input type="radio" name="rating" value="4"><i></i>
+              <input type="radio" name="rating" value="5"><i></i>
+  
+              <br>
+              gşidfşkgdfk
+            </span>
+            <br>
+            <br>
+            Yorum: {{yorum_ekle_form.yorum}} 
+            <br>
+            <br>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Kapat</button>
+          
+      </button>
+      <input type="submit" class="btn btn-primary">
+  </div>
+  </form>
+      </div>
+    </div>
+  </div>
+
+<br>
+{% for yorum in yorumlar%}
+<br>
+<div class="card">
+  <div class="card-body" style="display:flex;flex-direction: row;">
+    <div style="float: right;">
+      {% if yorum.yazan.avatar %}
+        <img src="{{ yorum.yazan.avatar.url }}" class="rounded" class="pt-4" width="75px" height="75px">
+      {% else %}
+      <img src="{% static 'img/no_avatar.jpg' %}" class="rounded" class="pt-4" width="75px" height="75px">
+      {% endif %}
+
+    </div>
+    <div>
+      <h5 class="card-title">{{ yorum.yazan.username }}</h5>
+      <p class="card-text">
+        <span class="star-rating">
+          <input type="radio" name="rating{{ yorum.id}}" value="1" {% if yorum.limited_integer_field == 1 %} checked  {%endif%}disabled><i></i>
+          <input type="radio" name="rating{{ yorum.id}}" value="2" {% if yorum.limited_integer_field == 2 %} checked  {%endif%}disabled><i></i>
+          <input type="radio" name="rating{{ yorum.id}}" value="3" {% if yorum.limited_integer_field == 3 %} checked  {%endif%}disabled><i></i>
+          <input type="radio" name="rating{{ yorum.id}}" value="4" {% if yorum.limited_integer_field == 4 %} checked  {%endif%}disabled><i></i>
+          <input type="radio" name="rating{{ yorum.id}}" value="5" {% if yorum.limited_integer_field == 5 %} checked  {%endif%}disabled><i></i>
+          
+        </span>
+        <br>
+      
+   
+        <h6>{{yorum.yorum}}</h6>
+        <span class="fa fa-star checked"></span>
+        <span class="fa fa-star checked"></span>
+        <span class="fa fa-star checked"></span>
+        <span class="fa fa-star"></span>
+        <span class="fa fa-star"></span>
+
+      </p>
+
+      {% if request.user == yorum.yazan or request.user == yazi.yazar %}
+        <p>
+        <a class="btn btn-danger" href="{% url 'yorum-sil' id=yorum.id %}"">Yorum Sil</a>
+      </p>
+      {% endif %}
+    </div>
+  </div>
+</div>
+
+{% empty %}
+<p> Bu yazı için hiç yorum yapılmamış.</p>
+
+{% endfor %}
+
+{% endblock %}

@@ -1,0 +1,123 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %}Sepet  {% endblock %}
+
+{% block content  %}
+
+
+
+
+{% comment  %}
+
+
+{% for urunx in sepet %}
+
+  {{urunx.urun.baslik}}
+  <br>
+  {{urunx.urun.price}}
+  <br>
+  {{urunx.get_tum_fiyat}}
+{% endfor %}
+
+
+
+
+{% endcomment %}
+
+
+
+<table class="table" style="margin-bottom: 0;">
+  {% if not  sepet.urun %}
+    <thead>
+      <tr>
+        <th scope="col">Ürün</th>
+        <th scope="col">Fiyat</th>
+        <th scope="col">Adet</th>
+        <th scope="col">Arttır/Azalt</th>
+      </tr>
+    </thead>
+    {% endif %}
+    <tbody style="margin-bottom:0 ;">
+      {% for urunx in sepet %}
+      <tr>
+        <th scope="row" style="width: 70%;">{{ urunx.urun.baslik }}</th>
+        <td>{{ urunx.urun.price }}</td>
+        <td>{{ urunx.quantity }}</td>
+        <td>
+          <p>
+            
+            <a class= "btn" href="" style="size:1px">
+              <img src="{% static 'img/up.png'  %}" alt="lup" style="width:30px">
+            </a>
+            <a class= "btn" href="" style="size:1px">
+              <img src="{% static 'img/down.png'  %}" alt="lup" style="width:30px">
+            </a>
+            {{ urunx.urun.UrunSlug}}
+            <a class= "btn btn-danger" href="{% url 'urun-sil' UrunSlug=urunx.urun.slug %}">Sil</a>
+
+            </p> 
+        </td>
+      </tr>
+      Lottie animasyon mail
+      ajax 
+      {% empty %}
+      
+      <div class= "alert alert-warning" role="alert">
+        
+        <p>Sepetiniz Boş</p>
+        
+      </div>
+      
+      {% endfor %}
+      {{sepet.get_total}}
+    </tbody>
+  </table>
+
+ 
+ 
+
+
+<br>
+
+{% if not sepet.urun %}
+<div class="float-left">
+  <div class="w-1 btn btn-success float-right  ml-1">
+    <a class="btnn btn-success" href="{% url 'onayla' %}">
+       <strong> Onayla</strong>
+    </a>
+  </div>
+  <div class="w-1 btn btn-danger ">
+    <a class="btnn btn-danger" href="{% url 'hepsini-sil' %}">
+    <strong> Hepsini Sil
+    </strong>
+  </a>
+  
+</div>
+<br>
+<strong > Toplam: {{tum_fiyat}}</strong>
+
+{% endif %}
+</div>
+<br>
+<br>
+
+{% if messages %}
+    <ul class="messages">
+        {% for message in messages %}
+        <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>
+          <div class= "alert alert-danger" role="alert">
+
+            <p>{{ message }}</p>
+            
+          </div>
+          
+        
+        </li>
+        {% endfor %}
+    </ul>
+
+    {% endif %}
+
+{% endblock %}

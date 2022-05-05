@@ -1,0 +1,5 @@
+.vscode
+.pipfile
+media
+db.sqlite3
+urun_resimleri

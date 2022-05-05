@@ -1,0 +1,83 @@
+{% load kategori_list %}
+{% kategori_list as kategoriler %}
+{% load static %}
+
+{% comment "eski" %}
+-------------------------------------------------------------------
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container">
+      <a class="navbar-brand h-2" href="{% url 'index'%}">Zamazor Commery</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          {% for kategori in kategoriler %}
+              <li class="nav-item">
+                <a class="nav-link active h-2" aria-current="page" href="{% url 'kategori' kategoriSlug=kategori.slug %}">{{kategori.isim}}</a>
+              </li>
+            {% endfor %}
+        </ul>
+        <form action="{% url 'index' %}"" class="d-flex w-100">
+          <input class="form-control me-2" name="sorgu" type="search" placeholder="Ara" aria-label="Search">
+          <button class="btn btn-outline-success"  type="submit">Ara</button>
+        </form>
+        <ul class="navbar-nav me-auto mb-2 mb-0 ">
+  
+                {% if not request.user.is_authenticated %}
+                     <a class="nav-link  active h-1 d-inline" aria-current="page" href="{% url 'giris' %}">Giriş</a> | <a class="nav-link" href="{% url 'kayit' %}">Kayıt Ol</a>
+                     {% else %}
+                     <a class="nav-link active h-1 d-inline"  href="{% url 'sepet' %}">Sepet  <img  src="{% static 'img/cart.png'  %}" alt="lup" style="width:30px"> </a>| <a class="nav-link  d-inline" aria-current="page" href="{% url 'hesabım' %}">Hesabım</a>
+                    </li>
+                    {% endif %}
+        </ul>
+      </div>
+    </div>
+  </nav>
+  ------------------------------------------------------------------------------------------------------------------------------------------------
+  {% endcomment %}
+
+ {% load static %}
+
+ <style>.nav-link{
+  display: inline;
+}
+</style>
+  
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container">
+        
+        <a class="navbar-brand" href="{% url 'index'%}"><img class="pr-3" src="{% static '/Amazon-Logo2.png'%}" alt="" style="width: 120px;padding-right: 10;"></a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse mr-0 pr-0" style="margin-right: 0; padding-right:0" id="navbarSupportedContent">
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            {% for kategori in kategoriler %}
+                <li class="nav-item">
+                  <a class="nav-link active " aria-current="page" href="{% url 'kategori' kategoriSlug=kategori.slug %}">{{kategori.isim}}</a>
+                </li>
+              {% endfor %}
+          </ul>
+          
+          <form action="{% url 'index' %}" class="d-flex mr-4" style="width: 500px;">
+            <input class="form-control me-2" name="sorgu" type="search" placeholder="Ara" aria-label="Search">
+            <button class="btn btn-outline-success"  type="submit">Search</button>
+          </form>
+          
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <li class="nav-item">
+              {% if not request.user.is_authenticated %}
+              <a class="nav-link active" aria-current="page" href="{% url 'giris'%}">Giriş</a> | <a class="nav-link active" aria-current="page" href="{% url 'kayit'%}">Kayit Ol</a>
+              {% else %}
+              <a class="nav-link active align-right" aria-current="page" href="{% url 'sepet'%}">Sepet<img  src="{% static 'img/cart.png'  %}" alt="lup" style="width:20px"> <a href="{% url 'hesabım' %}"class="nav-link active align-left" style="margin-top:1%;margin-bottom: 1%;">Hesabım</a> {% comment %} <a class="nav-link active" aria-current="page" href="{% url 'hesabım'%}">Hesabım</a> {% endcomment %}
+              {% endif %}
+            </li>
+            <li class="nav-item">
+             
+            </li>
+          </ul>
+        </div>
+     
+      </div>
+    </nav>

@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+
+
+{% load static %}
+
+
+{% block title %}Ödeme  {% endblock %}
+
+
+
+{% block content %}
+Kart Numarası: <input type="text" id="kk" name="kk" placeholder="Kredi Kartı No">   CVC: <input type="text" id="cvc" name="cvc" placeholder="Cvc no"><br> 
+<label for="isim">İsim:  </label><input type="text" name=isim"" id="isim" placeholder="kart sahibi">Son Geçerlilik Tarihi:   <input type="text" id="vald" name="valid" placeholder="Son Geçerlilik tarihi"> 
+<br>
+    <a class="btn btn-danger" href="{% url 'ozet' %}">
+       <strong> Onayla</strong>
+    </a>
+
+
+    
+{% endblock %}

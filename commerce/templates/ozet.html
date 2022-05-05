@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %}Özet  {% endblock %}
+
+
+
+{% block content%}
+
+
+    Sipariş Tarihi
+    <br>
+
+    Adres: 
+    <br>
+    
+    
+    
+    Ödeme özeti
+    <br>
+    
+    
+    
+    
+    fiyat
+    <br>
+    
+    
+    
+    {{toplam}}
+    <br>
+    la ne dion
+
+    <form action="{% url 'siparislerim' %}" method="post">
+        {% csrf_token %}
+        {% comment %}
+    <a class="btn btn-danger" href="{% url 'siparislerim' %}">
+        <strong> Onayla</strong>
+     </a>
+     {% endcomment %}
+     Gönder
+     <input type="submit" class="btn btn-danger"> Gönder beni
+
+
+    </form>
+
+
+{% endblock %}

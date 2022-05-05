@@ -1,0 +1,14 @@
+<div class="row footer" style="float: bottom;">
+    <div class="col-12" >
+        <p>Tüm hakları saklıdır&nbsp;&nbsp;&nbsp;&nbsp; | &nbsp;&nbsp;&nbsp;&nbsp;Zamazor Commercy
+            
+            <span class="ml-10 ">
+                {% if not request.user.is_authenticated %}
+                    <a href="{% url 'giris' %}">Giriş</a> | <a href="{% url 'kayit' %}">Kayıt Ol</a>
+                {% else %}
+                 &nbsp; :D
+                {% endif %}
+             </span>
+            </p>
+    </div>
+</div>

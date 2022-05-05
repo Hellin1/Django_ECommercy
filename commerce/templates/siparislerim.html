@@ -1,0 +1,124 @@
+{% extends 'base.html' %}
+
+
+
+{% load static %}
+
+
+{% block title %}Ödeme  {% endblock %}
+
+
+{% load i18n %}
+
+
+{% block content %}
+
+
+
+{% comment %}
+s
+{{urun.user}}
+{{urun.product}}
+{{urun.quantity}}
+{{urun.price}}
+{{urun.start_Date}}
+<br>
+<br>
+urunler : 
+<br>
+<ul class="list-group">
+  {% for urun in zippl%}
+  
+  <li class="list-group-item">
+    {{urun}}
+    
+  </li>
+  {% endfor %}
+  
+</ul>
+{% endcomment %}
+
+{% for siparis in urunlery%}
+<ul class="list-group">
+  <li class="list-group-item">
+    <div class="container">
+      <div class="row">
+        <div class="col">
+        &nbsp;&nbsp;&nbsp;Tarih
+        </div>
+        <div class="col">
+          Toplam Fiyat
+        </div>
+      </div>
+    <div class="container">
+      <div class="row">
+        <div class="col">
+          {% language 'tr' %} {{siparis.start_Date|date:' d N Y  H:i:s' }} {% endlanguage %}
+        </div>
+        <div class="col">
+         {{siparis.get_toal}} TL
+        </div>
+      </div>
+      
+    
+
+
+<div class="container py-5">
+
+  <div class="row">
+    <div class="col">
+      <!-- List group-->
+      <ul class="list-group shadow">
+        <!-- list group item-->
+        {% for urun in siparis.product.all %}
+         
+          <li class="list-group-item">
+            <!-- Custom content-->
+                <div class="media align-items-lg-center flex-column flex-lg-row p-3">
+                  <div class="media-body order-2 order-lg-1">
+                    <a href="{% url 'detay' UrunSlug=urun.slug  %}">
+                    <h5 class="mt-0 font-weight-bold mb-2">{{urun.baslik}}</h5></a>
+                    <p class="font-italic text-muted mb-0 small">{{urun.product|truncatechars:255|safe}} {{ variable|truncatechars:255 }}</p>
+                          <div class="d-flex align-items-center justify-content-between mt-1">
+                            <h6 class="font-weight-bold my-2">{{urun.price}} TL</h6>
+                            <ul class="list-inline small">
+                                  <li class="list-inline-item m-0"><i class="fa fa-star text-success"></i></li>
+                                  <li class="list-inline-item m-0"><i class="fa fa-star text-success"></i></li>
+                                  <li class="list-inline-item m-0"><i class="fa fa-star text-success"></i></li>
+                                  <li class="list-inline-item m-0"><i class="fa fa-star text-success"></i></li>
+                                  <li class="list-inline-item m-0"><i class="fa fa-star-o text-gray"></i></li>
+                                </ul>
+                              </div>
+                            
+                            </div>
+                            
+                            <img src="{{ urun.resim.url }}" alt="Generic placeholder image" width="200" class="ml-lg-5 order-1 order-lg-2">
+                          </div> <!-- End -->
+                        </li> <!-- End -->
+          {% endfor %}
+             
+          
+          </ul> <!-- End -->
+      </div>
+    </div>
+  </div>
+</li>
+
+</ul>
+<br>
+<br>
+<br>
+<br>
+<br>
+
+  {% endfor %}
+
+
+<br>
+<br>
+{% for x in urun.product.all %}
+
+{{x.urun}}
+{% endfor %}
+
+{% endblock %}
