@@ -9,40 +9,33 @@
 {% block content%}
 
 
-    Sipariş Tarihi
-    <br>
 
-    Adres: 
-    <br>
-    
-    
-    
-    Ödeme özeti
-    <br>
-    
-    
-    
-    
-    fiyat
-    <br>
-    
-    
-    
-    {{toplam}}
-    <br>
-    la ne dion
 
-    <form action="{% url 'siparislerim' %}" method="post">
+
+<br>
+
+<h5 class="mb-2">Siparişi Onaylamak İstiyormusunuz ? </h5>
+
+{% for urun in urunler %}
+{{urun.urun.baslik}}<br>
+{{urun.urun.price}} TL &nbsp; x    &nbsp; {{urun.quantity}} <br>
+
+{% endfor %}
+
+<h5 class="mt-2">Toplam Fiyat: {{toplam}}</h5>
+
+
+
+
+<form action="{% url 'siparislerim' %}" method="post">
         {% csrf_token %}
         {% comment %}
     <a class="btn btn-danger" href="{% url 'siparislerim' %}">
         <strong> Onayla</strong>
      </a>
      {% endcomment %}
-     Gönder
-     <input type="submit" class="btn btn-danger"> Gönder beni
-
-
+     <input type="submit" class="btn btn-success" value="Onayla">
+     <a href="{% url 'sepet' %}" class="btn btn-danger">Sepete Geri Dön</a>
     </form>
 
 

@@ -7,78 +7,184 @@
 {% block content  %}
 
 
+<link href="{% static 'css/custom.css' %}" rel="stylesheet" />
 
 
-{% comment  %}
+Teslimat Adresi
 
+Ödeme Aracı
 
-{% for urunx in sepet %}
-
-  {{urunx.urun.baslik}}
-  <br>
-  {{urunx.urun.price}}
-  <br>
-  {{urunx.get_tum_fiyat}}
-{% endfor %}
+Ürünleri ve teslimatı inceleme fiyat değicince sepetin yenilenmesi
 
 
 
 
-{% endcomment %}
 
 
 
-<table class="table" style="margin-bottom: 0;">
+{{ur_toplam}}
+
+<table id="tablo" class="table" style="margin-bottom: 0;">
   {% if not  sepet.urun %}
-    <thead>
-      <tr>
-        <th scope="col">Ürün</th>
-        <th scope="col">Fiyat</th>
-        <th scope="col">Adet</th>
-        <th scope="col">Arttır/Azalt</th>
-      </tr>
-    </thead>
-    {% endif %}
-    <tbody style="margin-bottom:0 ;">
-      {% for urunx in sepet %}
-      <tr>
-        <th scope="row" style="width: 70%;">{{ urunx.urun.baslik }}</th>
+  <thead>
+    <tr>
+      <th scope="col">Ürün</th>
+      <th scope="col">Fiyat</th>
+      <th scope="col">Adet</th>
+      <th scope="col">Arttır/Azalt</th>
+    </tr>
+  </thead>
+  {% endif %}
+  <tbody style="margin-bottom:0 ;">
+    {% for urunx in sepet %}
+    <tr>
+        <td scope="row" style="width: 70%;">{{ urunx.urun.baslik }}</td>
         <td>{{ urunx.urun.price }}</td>
         <td>{{ urunx.quantity }}</td>
         <td>
           <p>
-            
-            <a class= "btn" href="" style="size:1px">
+            {% comment %}
+            <a class= "btn" href="{% url 'sepet'  %}" style="size:1px" value="Go" onclick="qget()">
               <img src="{% static 'img/up.png'  %}" alt="lup" style="width:30px">
             </a>
-            <a class= "btn" href="" style="size:1px">
+            
+            <a class= "btn" href="{% url 'sepet' %}" style="size:1px">
+              <img src="{% static 'img/down.png'  %}" alt="lup" style="width:30px">
               <img src="{% static 'img/down.png'  %}" alt="lup" style="width:30px">
             </a>
             {{ urunx.urun.UrunSlug}}
             <a class= "btn btn-danger" href="{% url 'urun-sil' UrunSlug=urunx.urun.slug %}">Sil</a>
-
+            <input type="button" value="Arttır" data-catid="{{forloop.counter}}"  class="ajaxTrigger"/>
+            <input type="button" value="Azalt" data-catid="{{forloop.counter}}"  class="ajaxTrigger"/>
+            {% endcomment %}
+            
+            <!-- ajax trigger  -->
+            <button value="Arttır" data-catid="{{forloop.counter}}"  class="ajaxTrigger">
+              <img  src="{% static 'img/up.png'  %}" alt="lup" style="width:30px">
+            </button>
+            <button value="Azalt" data-catid="{{forloop.counter}}"  class="ajaxTrigger">
+              <img  src="{% static 'img/down.png'  %}" alt="lup" style="width:30px">
+            </button>
+            
             </p> 
         </td>
       </tr>
-      Lottie animasyon mail
-      ajax 
-      {% empty %}
       
-      <div class= "alert alert-warning" role="alert">
+      {% comment %}
+      <script>
+        // (B) GET WITH AJAX
+        function ajaxGETf () {
+          // (B1) URL + DATA
+          var data = new URLSearchParams();
+          data.append("name", "John Doe");
+          data.append("email", "john@doe.com");
+          data.append("arttır", "{{urunx}}");
+          data.append("urun", "{{urunx.urun.id}}");
+          var url = "{% url 'sepet' %}?" + data.toString();
+         
+          // (B2) AJAX
+          var xhr = new XMLHttpRequest();
+          xhr.open("GET", url);
+          xhr.onload = function () {
+            console.log(this.response);
+          };
+          xhr.send();
+          
+          var rowIndex = 1;
+          var cellIndex = 2;
+          us = document.getElementById('tablo').rows[rowIndex].cells[cellIndex];
+          deger = us.Text
+          us.innerHTML = "";
+        }
         
-        <p>Sepetiniz Boş</p>
         
-      </div>
-      
-      {% endfor %}
-      {{sepet.get_total}}
+      </script>
+        {% endcomment %}
+
+        
+        {% empty %}
+        
+        <div class= "alert alert-warning" role="alert">
+          
+          <p>Sepetiniz Boş</p>
+          
+        </div>
+        
+        
+        {% endfor %}
+        <script>
+          $('.ajaxTrigger').click(function(){
+            var catid;
+            catid = $(this).attr("data-catid");
+            console.log(catid);
+            console.log($(this).val());
+            if ($(this).val()=="Arttır")
+            {
+              res = "arttir";
+            }
+            else if ($(this).val()=="Azalt")
+            {
+              res = "azalt";
+            }
+            $.ajax(
+            {
+                type:"GET",
+                url: "{% url 'sepet' %}",
+                data:{
+                  urun: catid,
+                  updown: res,
+
+                },
+                success: function( data ) 
+                {
+                   // $( '#like'+ catid ).remove();
+                    //$( '#message' ).text(data);
+                    if(!data["valid"]){
+                     //  <!-- alert("You cannot create a friend with same nick name"); -->
+                      var nickName = $("#id_nick_name");
+                      nickName.val("");
+                      nickName.focus();
+                    }
+                    if(data["valid"])
+                    {
+                      //alert("valid");
+                      console.log(data);
+                      console.log("----");
+                      console.log(data["toplam"]);
+                    }
+                    tbl = document.getElementById("tablo");
+                    var rows = $('tr', tbl);
+                    console.log(rows.eq(catid));
+                    deg = rows.eq(catid).eq(0);
+                    deg = deg.find("td").eq(2);
+                    
+                    deg.html(data["adet"]);
+                    deg.focus();
+
+
+                    // toplam
+                    var toplam = $(".toplam");
+                    vartop = data["toplam"]
+                    vartop = vartop.toLocaleString('en-US');
+                    console.log(vartop);
+                    toplam.html('Toplam: ' + vartop);
+              },
+              error: function (data) {
+                  console.log(data);
+              }
+             })
+        });
+
+        </script>
+     
     </tbody>
   </table>
+  <strong class="mt-0 pt-0" >
+    <span class="toplam"> Toplam: {{tum_fiyat|floatformat:2}}</span></strong>
 
  
- 
 
-
+<br>
 <br>
 
 {% if not sepet.urun %}
@@ -96,7 +202,6 @@
   
 </div>
 <br>
-<strong > Toplam: {{tum_fiyat}}</strong>
 
 {% endif %}
 </div>
@@ -104,19 +209,20 @@
 <br>
 
 {% if messages %}
-    <ul class="messages">
+  
         {% for message in messages %}
-        <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>
-          <div class= "alert alert-danger" role="alert">
+        
+        <div {% if message.tags %} class="{{ message.tags }}ml-0"{% endif %}>
+          <div class= "alert alert-danger ml-0" role="alert">
 
             <p>{{ message }}</p>
             
           </div>
           
         
-        </li>
+        </div>
         {% endfor %}
-    </ul>
+
 
     {% endif %}
 

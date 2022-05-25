@@ -12,6 +12,9 @@
       <li class="list-group-item">
         <a href="{% url 'siparislerim' %}">Siparişlerim</a>
       </li>
+      <li class="list-group-item">
+        <a href="{% url 'adresler' %}">Adres Defteri</a>
+      </li>
       {% if not request.user.is_authenticated%}
       <li class="list-group-item">
         <a href="{% url 'giris' %}">Giriş</a>

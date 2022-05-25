@@ -21,3 +21,5 @@ class YorumEkleModelForm(forms.ModelForm):
           
         }
 
+# class AdresEkleModelForm(forms.ModelForm):
+

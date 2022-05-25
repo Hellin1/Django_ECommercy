@@ -8,7 +8,7 @@ from .views import (
     YorumEkleFormView,
     HepsiniSil, onay,
     ozet, siparislerim,
-    yeni,star, denme,  yorum_sil)
+    yeni, denme,  yorum_sil, adresler)
 
 from django.views.generic import TemplateView, RedirectView
 
@@ -31,6 +31,7 @@ urlpatterns = [
     path('onay', onay, name='onayla'),
     path('ozet', ozet , name='ozet'),
     path('yeni', yeni, name='yeni'),
-    path('star', star, name='star'),
     path('denme', denme, name='denme'),
+    path('adreslerim', adresler, name='adresler'),
 ]
+

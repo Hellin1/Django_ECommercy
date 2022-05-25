@@ -15,30 +15,7 @@
 
 
 
-{% comment %}
-s
-{{urun.user}}
-{{urun.product}}
-{{urun.quantity}}
-{{urun.price}}
-{{urun.start_Date}}
-<br>
-<br>
-urunler : 
-<br>
-<ul class="list-group">
-  {% for urun in zippl%}
-  
-  <li class="list-group-item">
-    {{urun}}
-    
-  </li>
-  {% endfor %}
-  
-</ul>
-{% endcomment %}
-
-{% for siparis in urunlery%}
+{% for siparis in urunlery %}
 <ul class="list-group">
   <li class="list-group-item">
     <div class="container">
@@ -56,7 +33,7 @@ urunler :
           {% language 'tr' %} {{siparis.start_Date|date:' d N Y  H:i:s' }} {% endlanguage %}
         </div>
         <div class="col">
-         {{siparis.get_toal}} TL
+         {{siparis.price}} TL
         </div>
       </div>
       
@@ -95,7 +72,8 @@ urunler :
                             <img src="{{ urun.resim.url }}" alt="Generic placeholder image" width="200" class="ml-lg-5 order-1 order-lg-2">
                           </div> <!-- End -->
                         </li> <!-- End -->
-          {% endfor %}
+        
+        {% endfor %}
              
           
           </ul> <!-- End -->
@@ -108,17 +86,12 @@ urunler :
 <br>
 <br>
 <br>
-<br>
-<br>
-
-  {% endfor %}
-
-
-<br>
-<br>
-{% for x in urun.product.all %}
-
-{{x.urun}}
+{% empty%}  
+  Henüz sipariş vermediniz.
 {% endfor %}
+
+
+<br>
+<br>
 
 {% endblock %}

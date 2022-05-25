@@ -1,5 +1,5 @@
 from django.contrib import admin
-from commerce.models import AdreslerModel, KategoriModel, SepetModel, UrunlerModel, OrdersModel, YorumModel
+from commerce.models import AdreslerModel, KategoriModel, SepetModel, UrunlerModel, OrdersModel, YorumModel, DenemeAdres
 # Register your models here.
 
 #admin.register(Urunler)
@@ -19,3 +19,4 @@ admin.site.register(AdreslerModel)
 admin.site.register(KategoriModel)
 admin.site.register(YorumModel)
 admin.site.register(SepetModel)
+admin.site.register(DenemeAdres)

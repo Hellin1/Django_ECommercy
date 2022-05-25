@@ -48,12 +48,12 @@
   <div class="card mb-3" > 
     <div class="row g-0"> 
       <div class="col-md-4"> 
-        <img src="{{ x.resim.url }}" class="img">
+        <img src="{{ x.resim.url }}" class="img" style="width: 270px;">
       </div> 
       <div class="col-md-8"> 
         <div class="card-body"> 
           <h5 class="card-title">
-            <a class="text-dark" href="{% url 'detay' UrunSlug=x.slug %}" >{{x.baslik}}</a>
+            <a class="text-dark" href="{% url 'detay' UrunSlug=x.slug %}" style="text-decoration:none">{{x.baslik}}</a>
           </h5> 
           <p class="card-text">{{ x.price }} TL</p> 
           

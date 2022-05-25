@@ -7,16 +7,131 @@
 
 {% block title %}Ödeme  {% endblock %}
 
+{% block extra_head  %}
+
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
+
+{% endblock %}
 
 
 {% block content %}
+
+
+
+
 Kart Numarası: <input type="text" id="kk" name="kk" placeholder="Kredi Kartı No">   CVC: <input type="text" id="cvc" name="cvc" placeholder="Cvc no"><br> 
 <label for="isim">İsim:  </label><input type="text" name=isim"" id="isim" placeholder="kart sahibi">Son Geçerlilik Tarihi:   <input type="text" id="vald" name="valid" placeholder="Son Geçerlilik tarihi"> 
 <br>
-    <a class="btn btn-danger" href="{% url 'ozet' %}">
-       <strong> Onayla</strong>
-    </a>
+
+<form action="{% url 'ozet' %}" method="post">
+  {% csrf_token %}
+  <a href="#" class="btn btn-danger" onclick="this.parentNode.submit()">
+      <strong> Onayla</strong>
+  </a>
+</form>
+  
+<!-- Adres Seçimi -->
+
+Seçili Adres -> Current Address
+<br>
+Değiştir
+<button class="" onclick="myFunction()">Değiştir</button>
+
+<div id="myDIV" style="display: none;">
+  <input type="radio" value="deneme" name="adres"><label for="adres" class="pl-1"> Adres {{adres.province}}</label> <br>
+  <input type="radio" value="deneme2" name="adres"><label for="adres" class="pl-1"> Adres 2</label> <br>
+  <input type="radio" value="deneme3" name="adres"><label for="adres" class="pl-1"> Adres 3</label> <br>
+</div>
+<br>
+<br>
+<button class="" onclick="myFunction2()">Değiştir</button>
+
+<div id="myDIV2" style="display: none;">
+  {% for x in adres %}
+  <input type="radio" value="deneme" name="adres"><label for="adres" class="pl-1">{{x.title}}</label> <br>
+  {% endfor %}
+</div>
+
+{{context.adres}} 
 
 
-    
-{% endblock %}
+<br>
+
+
+
+<script>
+  function myFunction() {
+    var x = document.getElementById("myDIV");
+    if (x.style.display === "none") {
+      x.style.display = "block";
+    } else {
+      x.style.display = "none";
+    }
+  }
+  function myFunction2() {
+    var x = document.getElementById("myDIV2");
+    if (x.style.display === "none") {
+      x.style.display = "block";
+    } else {
+      x.style.display = "none";
+    }
+  }
+  </script>
+
+
+Adresi Değiştir
+<button  class="nav-item" data-toggle="modal" data-target="#exampleModal">
+  Adres Ekle
+</button>
+
+
+
+
+  <!-- Modal -->
+  <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+       <form method="post" id="form1">
+           {% csrf_token %}
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Yorum Yap   .</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+            <span class="star-rating">
+              <input type="radio" name="rating" value="1"><i></i>
+              <input type="radio" name="rating" value="2"><i></i>
+              <input type="radio" name="rating" value="3"><i></i>
+              <input type="radio" name="rating" value="4"><i></i>
+              <input type="radio" name="rating" value="5"><i></i>
+  
+              <br>
+              gşidfşkgdfk
+            </span>
+            <br>
+            <br>
+            Yorum: {{yorum_ekle_form.yorum}} 
+            <br>
+            <br>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Kapat</button>
+          
+      </button>
+      <input type="submit" class="btn btn-primary">
+  </div>
+  </form>
+      </div>
+    </div>
+  </div>
+
+
+
+
+
+
+    {% endblock %}

@@ -1,0 +1,407 @@
+{% extends 'base.html' %}
+    
+
+{% block extra_head %}
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+{% endblock %}
+
+{% block content %}
+    {% for adres in adresler %}
+        {{adres}}
+
+    {% empty %}
+     adres yok
+
+    {% endfor %}
+
+ 
+    <br>
+    <br>
+    adres defteri
+
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+        Yorum Yap
+      </button>
+
+
+      <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+        <div class="modal-content">
+        <form method="post" id="form1">
+            {% csrf_token %}
+            <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Yorum Yap   .</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            </div>
+            <div class="modal-body">
+                <label for="ad">Ad</label>
+                <input type="text" name="ad">
+                <label for="soyad">Soyad</label>
+                <input type="text" name="ad">
+                <br>
+                <label for="tel">Telefon</label>
+                <input type="text" name="tel">
+                <br>
+                <label for="mail">E-Mail</label>
+                <input type="text" name="mail">
+            
+                <br>
+            
+            
+            
+            
+               <!--iller deneme-->
+               <label for="sehirler2">Sehirler</label>
+               <select id="sehirler2" name="sehirler2" onchange="senFunc(this.value);" class="dropdown2">
+               {% for x in context.sonuc%}
+                   <option value="{{x.0}}">{{x.1}}</option>
+               {% endfor %}
+            </select>
+            <br>
+            
+            
+            
+            <!-- İlceler -->
+            <label for="secil">İlceler</label>
+            <select name="secil" id="secil" onchange="getIlce(this.value);">
+               {% for x,z in context.ilceler.items %}
+                   {%if x == "Adana" %}
+                       {% for j in z %}
+                       <option value="{{j.0}}">{{j.1}}&nbsp;&nbsp;&nbsp;</option>
+                       {% endfor %}
+                       {{z}}
+                       {%endif%}
+            
+               {% endfor %}
+            </select>
+            
+            
+            
+            <!-- Semtler -->
+            <label for="semtler">Semt</label>
+            
+            <select name="semtler" id="semtler" >
+            {% for x in context.mahalleler %}
+                   <option value="{{x.0}}">{{x.0}}&nbsp;&nbsp;&nbsp;</option>
+            
+            {% endfor %}
+            </select>
+            
+            <br>
+            <label for="adresArea">Adres: </label>
+            <textarea name="adresArea" id="adresArea" cols="30" rows="10" placeholder="Adres Bilgisi Girin">
+            &nbsp;
+            
+            </textarea>
+            
+                <br>
+                gşidfşkgdfk
+                </span>
+                <br>
+                <br>
+                Yorum: {{yorum_ekle_form.yorum}} 
+                <br>
+                <br>
+            </div>
+            <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Kapat</button>
+            
+        </button>
+        <input type="submit" class="btn btn-primary">
+    </div>
+    </form>
+        </div>
+        </div>
+    </div>
+
+
+
+    <label for="ad">Ad</label>
+    <input type="text" name="ad">
+    <label for="soyad">Soyad</label>
+    <input type="text" name="ad">
+    <br>
+    <label for="tel">Telefon</label>
+    <input type="text" name="tel">
+
+    <br>
+
+
+
+
+   <!--iller deneme-->
+   <label for="sehirler2">Sehirler</label>
+   <select id="sehirler2" name="sehirler2" onchange="senFunc(this.value);" class="dropdown2">
+   {% for x in context.sonuc%}
+       <option value="{{x.0}}">{{x.1}}</option>
+   {% endfor %}
+</select>
+<br>
+
+
+
+<!-- İlceler -->
+<label for="secil">İlceler</label>
+<select name="secil" id="secil" onchange="getIlce(this.value);">
+   {% for x,z in context.ilceler.items %}
+       {%if x == "Adana" %}
+           {% for j in z %}
+           <option value="{{j.0}}">{{j.1}}&nbsp;&nbsp;&nbsp;</option>
+           {% endfor %}
+           {{z}}
+           {%endif%}
+
+   {% endfor %}
+</select>
+
+
+
+<!-- Semtler -->
+<label for="semtler">Semt</label>
+
+<select name="semtler" id="semtler" >
+{% for x in context.mahalleler %}
+       <option value="{{x.0}}">{{x.0}}&nbsp;&nbsp;&nbsp;</option>
+
+{% endfor %}
+</select>
+
+<br>
+<label for="adresArea">Adres: </label>
+<textarea name="adresArea" id="adresArea" cols="30" rows="10" placeholder="Adres Bilgisi Girin">
+&nbsp;
+
+</textarea>
+
+
+deneme <br>
+<select class="js-example-basic-multiple" name="states[]" multiple="multiple">
+   <option value="AL">Alabama</option>
+   <option value="WY">Wyoming</option>
+ </select>
+
+
+ <script>$(document).ready(function() {
+   $('.js-example-basic-multiple').select2();
+});</script>
+
+
+<script>
+   function getIlce(value){
+
+   $(function(){
+   console.log("çalıştı");
+   var selectedItem = document.getElementById("sehirler2"); 
+   var il = selectedItem.options[selectedItem.selectedIndex].text;
+   var selectedItem2 = document.getElementById("secil");
+   var ilce = selectedItem2.options[selectedItem2.selectedIndex].text;
+   catid = 0;
+   $.ajax(
+       {
+         
+           type:"POST",
+           url: "{% url 'onayla' %}",
+           data:{   
+             csrfmiddlewaretoken: '{{ csrf_token }}',
+             func2: true,
+             ilce:  ilce,
+             textim: il,
+ 
+           },
+           success: function( data ) 
+           {
+               console.log("valid mi: "+ data["mahalleler"]);
+               console.log("-------*---------");
+               console.log(data);
+               console.log("-------*---------");
+
+              // $( '#like'+ catid ).remove();
+               //$( '#message' ).text(data);
+               if(!data["valid"]){
+                //  <!-- alert("You cannot create a friend with same nick name"); -->
+                 var nickName = $("#id_nick_name");
+                 nickName.val("");
+                 nickName.focus();
+               }
+               if(data["valid"])
+               {
+                 //alert("valid");
+                 console.log(data);
+                 console.log("----");
+                 console.log(data["toplam"]);
+
+
+
+               }
+               console.log(data["ilceler"]);
+               tbl = document.getElementById("tablo");
+               var rows = $('tr', tbl);
+               console.log(rows.eq(catid));
+               deg = rows.eq(catid).eq(0);
+               deg = deg.find("td").eq(2);
+               
+               deg.html(data["adet"]);
+               deg.focus();
+ 
+               var select = document.getElementById("year");
+               // $("#sehirler2").empty();
+               var select = document.getElementById("sehirler2");
+               var select = document.getElementById("semtler");
+ 
+               console.log("hangi mahalle: " + data["mahalleler"]);
+               console.log(data["mahalleler"]);
+ 
+ 
+        // for(var i = 2011; i >= 1900; --i) {
+          //   var option = document.createElement('option');
+            // option.text = option.value = i;
+            // select.add(option, 0);
+     //}
+         $("#semtler").empty();
+         for(let  i = 0; i < data["mahalleler"].length; i++ )
+         {
+             var option = document.createElement('option');
+             option.text = data["mahalleler"][i];
+             option.value = data["mahalleler"][i];
+             console.log(data["mahalleler"][i]);
+             select.add(option, 0);
+         }
+ 
+ 
+             
+         },
+         error: function (data) {
+             console.log(data);
+         }
+        });
+
+
+       });
+   }
+
+   
+</script>
+
+
+
+<script>
+   function senFunc(value){
+       console.log("tetiklendi");
+   $(function(){
+     var selectedItem = document.getElementById("sehirler2"); 
+     var il = selectedItem.options[selectedItem.selectedIndex].text;
+     var selectedItem2 = document.getElementById("secil");
+     var ilce = selectedItem2.options[selectedItem2.selectedIndex].text;
+     var selectedItem3 = document.getElementById("semtler");
+     var semtler = selectedItem3.options[selectedItem3.selectedIndex].text;
+     console.log(ilce);
+     console.log("al bunada bak " + semtler);
+     console.log("çalışıyormu1");
+     console.log(il);
+     console.log(selectedItem.index);
+     seciliIndex = (selectedItem.selectedIndex)
+     console.log("çalışıyormu2");
+
+     var catid;
+     catid = $(this).attr("data-catid");
+     console.log(catid);
+     console.log($(this).val());
+
+     
+    
+     $.ajax(
+     {
+       
+         type:"POST",
+         url: "{% url 'onayla' %}",
+         data:{
+           urun: catid,
+           csrfmiddlewaretoken: '{{ csrf_token }}',
+           myindex: seciliIndex,
+           textim: il,
+           ilce:  ilce
+
+         },
+         success: function( data ) 
+         {
+            // $( '#like'+ catid ).remove();
+             //$( '#message' ).text(data);
+             if(!data["valid"]){
+              //  <!-- alert("You cannot create a friend with same nick name"); -->
+               var nickName = $("#id_nick_name");
+               nickName.val("");
+               nickName.focus();
+             }
+             if(data["valid"])
+             {
+               //alert("valid");
+               console.log(data);
+               console.log("----");
+               console.log(data["toplam"]);
+             }
+             console.log(data["ilceler"]);
+             tbl = document.getElementById("tablo");
+             var rows = $('tr', tbl);
+             console.log(rows.eq(catid));
+             deg = rows.eq(catid).eq(0);
+             deg = deg.find("td").eq(2);
+             
+             deg.html(data["adet"]);
+             deg.focus();
+
+             var select = document.getElementById("year");
+             // $("#sehirler2").empty();
+             var select = document.getElementById("sehirler2");
+             var select = document.getElementById("secil");
+
+             console.log("hangi mahalle: " + data["mahalleler"]);
+             console.log(data["mahalleler"]);
+
+
+      // for(var i = 2011; i >= 1900; --i) {
+        //   var option = document.createElement('option');
+          // option.text = option.value = i;
+          // select.add(option, 0);
+   //}
+       $("#secil").empty();
+       for(let  i = 0; i < data["ilceler"].length; i++ )
+       {
+           var option = document.createElement('option');
+           option.text = data["ilceler"][i][1];
+           option.value = data["ilceler"][i][0];
+           console.log(data["ilceler"][i]);
+           select.add(option, 0);
+       }
+
+
+           
+       },
+       error: function (data) {
+           console.log(data);
+       }
+      })
+ });
+}
+ </script>
+
+
+
+
+
+{% comment %}
+{{context.ilceler }}
+   {% for key, value in context.ilceler.items %}
+       {{key}}{{value}}
+       
+       
+   {% endfor %}
+   {% endcomment %}
+hanğ ğlçe
+
+
+
+{% endblock %}

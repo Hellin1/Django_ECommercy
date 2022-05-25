@@ -87,13 +87,13 @@
 <div class="card mb-3"> 
     <div class="row g-0"> 
       <div class="col-md-4"> 
-        <img src="{{ urun.resim.url }}" class="img">
+        <img src="{{ urun.resim.url }}" class="img" width="300px">
       </div> 
       <div class="col-md-8"> 
         <div class="card-body"> 
           <h5 class="card-title">{{ urun.baslik }}</h5> 
           <p class="card-text">{{ urun.product|safe}}</p> 
-          <p class="card-text">{{ urun.price }} TL</p> 
+          <h5 class="card-text">{{ urun.price }} TL</h5> 
             <br>
             
             
@@ -116,7 +116,7 @@
                 
             {% endcomment %}
             
-            <a class= "btn btn-primary" href="{% url 'sepete-ekle' UrunSlug=urun.slug %}">Sepete Ekle</a>
+            <a class= "btn btn-primary" href="{% if request.user.is_authenticated %}{% url 'sepete-ekle' UrunSlug=urun.slug %}{% else %} {% url 'giris' %} {% endif %}">Sepete Ekle</a>
 
         </p>
     </div> 
@@ -208,7 +208,7 @@
       <h5 class="card-title">{{ yorum.yazan.username }}</h5>
       <p class="card-text">
         <span class="star-rating">
-          <input type="radio" name="rating{{ yorum.id}}" value="1" {% if yorum.limited_integer_field == 1 %} checked  {%endif%}disabled><i></i>
+          <input type="radio" name="rating{{ yorum.id }}" value="1" {% if yorum.limited_integer_field == 1 %} checked  {%endif%}disabled><i></i>
           <input type="radio" name="rating{{ yorum.id}}" value="2" {% if yorum.limited_integer_field == 2 %} checked  {%endif%}disabled><i></i>
           <input type="radio" name="rating{{ yorum.id}}" value="3" {% if yorum.limited_integer_field == 3 %} checked  {%endif%}disabled><i></i>
           <input type="radio" name="rating{{ yorum.id}}" value="4" {% if yorum.limited_integer_field == 4 %} checked  {%endif%}disabled><i></i>
@@ -229,7 +229,7 @@
 
       {% if request.user == yorum.yazan or request.user == yazi.yazar %}
         <p>
-        <a class="btn btn-danger" href="{% url 'yorum-sil' id=yorum.id %}"">Yorum Sil</a>
+        <a class="btn btn-danger" href="{% url 'yorum-sil' id=yorum.id %}"">Yorumu Sil</a>
       </p>
       {% endif %}
     </div>
@@ -237,7 +237,7 @@
 </div>
 
 {% empty %}
-<p> Bu yazı için hiç yorum yapılmamış.</p>
+<p class="mt-2"> Bu ürün için hiç yorum yapılmamış.</p>
 
 {% endfor %}
 
