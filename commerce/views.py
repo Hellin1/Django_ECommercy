@@ -26,7 +26,6 @@ import time
 #     deger = UrunlerModel.objects.all()
 #     # deger = deger.order.all()
 
-#     print("sa")
 #     return render(request, 'anasayfa.html', context={'urun':urun, 'siparis': siparis, 'deger':deger})
 
 
